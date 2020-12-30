@@ -1,5 +1,4 @@
-import React, {useState, useEffect} from "react";
-import axios from "axios";
+import React, {useState} from "react";
 import Display from "./Display";
 import styled from 'styled-components';
 
@@ -25,7 +24,6 @@ function App() {
       return response.json()
     })
     .then((weatherInfo) => {
-      console.log(weatherInfo)
       setWeather(weatherInfo)
       let clearWeather = setInterval(() => {
         let stop = 0
