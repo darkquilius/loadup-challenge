@@ -13,7 +13,9 @@ import styled from 'styled-components';
 
 function App() {
 
-  const [weather, setWeather] = useState({})
+  const [weather, setWeather] = useState({});
+  const [showCurrent, setShowCurrent] = useState(false);
+  const [showThreeDay, setShowThreeDay] = useState(false);
 
   function showWeather(position) {
     const latitude  = position.coords.latitude;
@@ -39,17 +41,58 @@ function App() {
     })
   }
 
+  function currentWeatherShow(){
+    setShowCurrent(true);
+    let clearWeather = setInterval(() => {
+      let stop = 0
+     setShowCurrent(false)
+     stop++
+     if(stop === 1){
+       clearInterval(clearWeather)
+     }
+   }, 15000);
+  }
+
+  function threeDayWeatherShow(){
+    setShowThreeDay(true);
+    let clearWeather = setInterval(() => {
+      let stop = 0
+     setShowThreeDay(false)
+     stop++
+     if(stop === 1){
+       clearInterval(clearWeather)
+     }
+   }, 15000);
+  }
+
   // useEffect(scrollBackground)
 
   return (
     <Wrapper>
     <div className="container">
-      <Display weather={weather}/>
+      <Display weather={weather} showCurrent={showCurrent} showThreeDay={showThreeDay}/>
       <button 
-        onClick={() => navigator.geolocation.getCurrentPosition(showWeather)}
+        onClick={
+          () => {
+            navigator.geolocation.getCurrentPosition(showWeather);
+            currentWeatherShow();  
+          }
+        }
         className="btn"
         >
           Current Weather
+        
+        </button>
+        <button 
+        onClick={
+          () => {
+            navigator.geolocation.getCurrentPosition(showWeather);
+            threeDayWeatherShow();  
+          }
+        }
+        className="btn"
+        >
+          Three Day Weather
         
         </button>
     </div>

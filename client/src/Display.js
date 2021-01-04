@@ -1,12 +1,15 @@
 import React from "react";
 import styled from 'styled-components';
+import moment from "moment";
+import ThreeDay from "./ThreeDay";
 
-const Display = ({weather}) => {
+const Display = ({weather, showCurrent, showThreeDay}) => {
 
-    if(weather.current){
+    if(weather.current && showCurrent){
     return(
         <Wrapper>
-            <h1 className="head">Weather Around You</h1>
+            <h1>Current Weather</h1>
+            <h1>{moment().format("MMM " + "D " + "YYYY")}</h1>
             <img alt="Current Weather" src={`http://openweathermap.org/img/wn/${weather.current.weather[0].icon}@4x.png`} />
             <h3 className="description">{weather.current.weather[0].description.toUpperCase()}</h3>
             <h3>{weather.current.temp.toString().substring(0,2)}&#176;F</h3>
@@ -15,6 +18,19 @@ const Display = ({weather}) => {
             <p>UV Index: {weather.current.uvi}</p>
         </Wrapper>
     )
+    }
+    else if(weather.daily && showThreeDay){
+        let threeDay = weather.daily.slice(1, 4);
+        let index = 0;
+        return(
+        <Wrapper className="threeDay">
+            <h1>Three Day Forecast</h1>
+            {threeDay.map((daily) => {
+                index++
+                return <ThreeDay key={`day ${index}`} {...daily} index={index}></ThreeDay>
+            })}
+        </Wrapper>
+        )
     }
     else{
         return(
@@ -27,9 +43,9 @@ const Display = ({weather}) => {
 }
 
 const Wrapper = styled.div`
-display: grid;
-place-items: center;
-margin-bottom: 1rem;
+.threeDay {
+    display: grid;
+}
 
 h1 {
     color: white;
