@@ -111,7 +111,7 @@ const Wrapper = styled.section`
   
   .container {
     width: 90vw;
-    max-width: 600px;
+    max-width: 800px;
     text-align: center;
   }
 `;
